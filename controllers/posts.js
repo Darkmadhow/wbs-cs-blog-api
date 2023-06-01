@@ -35,8 +35,8 @@ export const updatePost = asyncHandler(async (req, res, next) => {
   if (!found)
     throw new ErrorResponse(`Post with id of ${id} doesn't exist`, 404);
   //check if the user is also the author
-  const user = await User.findById(uid);
-  if (!user._id.equals(found.author))
+  // const user = await User.findById(uid);
+  if (!(uid == found.author.toString()))
     throw new ErrorResponse("You can only modify your own posts", 403);
   //if everything is okay, update post
   const updatedPost = await (
@@ -53,8 +53,8 @@ export const deletePost = asyncHandler(async (req, res, next) => {
   const found = await Post.findById(id);
   if (!found) throw new Error(`Post with id of ${id} doesn't exist`);
   //check if the user is also the author
-  const user = await User.findById(uid);
-  if (!user._id.equals(found.author))
+  // const user = await User.findById(uid);
+  if (!(uid == found.author.toString()))
     throw new ErrorResponse("You can only delete your own posts", 403);
   //if everything is okay, delete post
   await Post.deleteOne({ _id: id });
